@@ -70,7 +70,7 @@ void menu()
 
 void inicializar()
 {
-	// se a lista j� possuir elementos
+	// se a lista já possuir elementos
 // libera a memoria ocupada
 	NO* aux = primeiro;
 	while (aux != NULL) {
@@ -114,14 +114,12 @@ void exibirElementos()
 
 void inserirElemento()
 {
-	// aloca memoria dinamicamente para o novo elemento
 	NO* novo = (NO*)malloc(sizeof(NO));
 	if (novo == NULL)
 	{
 		return;
 	}
-
-	cout << "Digite o elemento: ";
+	cout << "digite o elemento ";
 	cin >> novo->valor;
 	novo->prox = NULL;
 
@@ -129,25 +127,89 @@ void inserirElemento()
 	{
 		primeiro = novo;
 	}
+	else if (primeiro->valor > novo->valor)
+	{
+		NO* aux = primeiro;
+		primeiro = novo;
+		novo->prox = aux;
+	}
 	else
 	{
-		// procura o final da lista
 		NO* aux = primeiro;
-		while (aux->prox != NULL) {
+		while (aux->prox != NULL && aux->prox->valor < novo->valor)
+		{
 			aux = aux->prox;
 		}
+		novo->prox = aux->prox;
 		aux->prox = novo;
 	}
 }
 
+
 void excluirElemento()
 {
+    int numeroExcluir;
+    cout << "digite o número a ser excluído:" << endl;
+    cin >> numeroExcluir;
 
+    if (primeiro == NULL)
+    {
+        cout << "lista vazia" << endl;
+        return;
+    }
+
+    if (primeiro->valor == numeroExcluir)
+    {
+        NO* deletar = primeiro;
+        primeiro = primeiro->prox;
+        free(deletar);
+        cout << "número excluído com sucesso" << endl;
+        return;
+    }
+
+    NO* aux = primeiro;
+    while (aux->prox != NULL)
+    {
+        if (aux->prox->valor == numeroExcluir)
+        {
+            NO* deletar = aux->prox;
+            aux->prox = aux->prox->prox;
+            free(deletar);
+            cout << "número excluído com sucesso" << endl;
+            return;
+        }
+        aux = aux->prox;
+    }
+
+    cout << "número não encontrado na lista" << endl;
 }
 
 void buscarElemento()
 {
+    int numeroBuscar;
+    cout << "número a ser achado:" << endl;
+    cin >> numeroBuscar;
 
+    NO* aux = primeiro;
+    int cont = 0;
+    while (aux != NULL)
+    {
+        if (aux->valor == numeroBuscar)
+        {
+            cont++;
+        }
+        aux = aux->prox;
+    }
+
+    if (cont > 0)
+    {
+        cout << "o número foi encontrado " << cont << " vezes" << endl;
+    }
+    else
+    {
+        cout << "o número não encontrado na lista" << endl;
+    }
 }
+
 
 
